@@ -1,0 +1,67 @@
+R0=my code length
+R1=target cell
+R2=current code section being copied
+
+Initialise
+#1
+Reset R2
+#2
+copy instruction at R2 in my cell to instruction R2 in target cell
+increment R2
+Goto #2 if R0<R2
+change target cell
+Goto #1
+
+HIGHER LEVEL
+============================
+setr 0 (codel 0)
+setr 1 255
+nop0 nop0 nop0 nop0
+setr 2 0
+nop0 nop0 nop0 nop1
+move (readc (readr 2) 0) (readr 1) (readr 2)
+setr 2 ((readr 2) +1)
+call 1 (less (readr 0) (readr 2))
+setr 1 ((readr 1) -1)
+call 0 1
+
+MID LEVEL
+============================
+codel mpl setr zero
+dec mpl inc setr zero
+nop0 nop0 nop0 nop0
+inc inc setr zero
+nop0 nop0 nop0 nop1
+inc inc readr readc mpr inc readr mpr inc inc readr mpl mpl move zero
+inc inc readr inc mpl inc inc setr zero
+inc inc readr mpl readr less mpl inc call zero
+inc readr dec mpl inc setr zero
+inc mpl call zero
+
+MID-LOW LEVEL STEP
+============================
+22 19 12 24
+21 19 20 12 24
+0 0 0 0
+20 20 12 24
+0 0 0 1
+20 20 13 23 18 20 13 18 20 20 13 19 19 25 24
+20 20 13 20 19 20 20 12 24
+20 20 13 19 13 9 19 20 16 24
+20 13 21 19 20 12 24
+20 19 16 24
+
+22 19 12 24
+21 19 20 12 24
+0 0 0 0
+20 20 12 24
+0 0 0 1
+20 20 13 23 18 20 13 18 20 20 13 19 19 25 24
+20 20 13 20 19 20 20 12 24
+20 19 20 16 24
+20 13 21 19 20 12 24
+20 19 16 24
+
+LOWER LEVEL
+============================
+22 19 12 24 21 19 20 12 24 0 0 0 0 20 20 12 24 0 0 0 1 20 20 13 23 18 20 13 18 20 20 13 19 19 25 24 20 20 13 20 19 20 20 12 24 20 20 13 19 13 9 19 20 16 24 20 13 21 19 20 12 24 20 19 16 24
